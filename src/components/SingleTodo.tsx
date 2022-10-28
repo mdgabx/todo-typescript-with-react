@@ -31,16 +31,26 @@ const SingleTodo = ({todo, todoList, setTodoList}: Props) => {
         )
     };
 
-    const handleEdit = () => {
+    const handleEdit = (e: React.FormEvent, id: number) => {
+        e.preventDefault();
 
-    };
+        setTodoList(todoList.map((todo) => {
+            return todo.id === id ? {...todo, todo: editTodo} : todo;
+        }));
+
+        setEdit(false);
+
+        // setTodoList(todoList.map((todo) => {
+        //    return todo.id === id ? {...todo, todo: editTodo} : todo;
+        // })
+    }
 
     return (
-        <form className="todos__single flex w-11/12 p-4 bg-white rounded-[5px] mt-4">
+        <form className="todos__single flex w-11/12 p-4 bg-amber-400 rounded-[5px] mt-4" onSubmit={(e) => handleEdit(e, todo.id)}> 
             {
                 edit ? (
                         <input value={editTodo} onChange={(e) => setEditTodo(e.target.value)} 
-                            className="todos__single--text flex grow p-2 text-xl"
+                            className="todos__single--text flex grow p-2 text-xl outline-none"
                         />
 
                 ) : ( todo.isDone === true ? (
