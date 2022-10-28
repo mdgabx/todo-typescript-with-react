@@ -1,4 +1,5 @@
 import { Todo } from '../../src/model';
+import React, { useState } from 'react';
 import { FiCheck, FiDelete, FiEdit3 } from 'react-icons/fi';
 
 interface Props {
@@ -9,6 +10,9 @@ interface Props {
 
 
 const SingleTodo = ({todo, todoList, setTodoList}: Props) => {
+    const [edit, setEdit] = useState<boolean>(false);
+    const [editTodo, setEditTodo ] = useState<string>(todo.todo);
+
     
     const handleDone = ( id : number ) => {
         setTodoList(
@@ -20,32 +24,49 @@ const SingleTodo = ({todo, todoList, setTodoList}: Props) => {
     };
 
     const handleDelete = ( id: number ) => {
+        setTodoList(
+            todoList.filter((todo) => {
+                return todo.id !== id;
+            })
+        )
+    };
+
+    const handleEdit = () => {
 
     };
 
     return (
         <form className="todos__single flex w-11/12 p-4 bg-white rounded-[5px] mt-4">
-            { todo.isDone === true ? (
-                <s className="todos__single--text flex grow p-2 border-none text-xl">
-                    {todo.todo}
-                </s>
-                ) : (
-                <span className="todos__single--text flex grow p-2 border-none text-xl">
-                    {todo.todo}
-                </span>
-                )
-            }
-            
-            {/*             
+            {
+                edit ? (
+                        <input value={editTodo} onChange={(e) => setEditTodo(e.target.value)} 
+                            className="todos__single--text flex grow p-2 text-xl"
+                        />
+
+                ) : ( todo.isDone === true ? (
+                        <s className="todos__single--text flex grow p-2 border-none text-xl">
+                            {todo.todo}
+                        </s>
+                        ) : (
                         <span className="todos__single--text flex grow p-2 border-none text-xl">
                             {todo.todo}
-                        </span> */}
+                        </span>
+                        )
+                )
+            }
+
             <div className="flex flex-row justify-center items-center">
                 <span className="icon ml-2 text-xl cursor-pointer">
-                    <FiEdit3 />
+                    <FiEdit3 onClick={() => {
+                         if(!edit && !todo.isDone) {
+                            setEdit(!edit);
+                        }
+                    }
+                    } />
+                
                 </span>
                 <span className="icon ml-2 text-xl cursor-pointer">
-                    <FiDelete onClick={() => handleDone(todo.id)} />
+                    <FiDelete onClick={() => handleDelete(todo.id)} />
                 </span>
                 <span className="icon ml-2 text-xl cursor-pointer">
                     <FiCheck onClick={() => handleDone(todo.id)} />
