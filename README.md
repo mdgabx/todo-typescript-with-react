@@ -1,3 +1,7 @@
 # A todo app with react.js and typescript
 
-- practicing typescript and react.js along with tailwindcss
+
+Purpose of this project
+- to practice/gain familiarity with typescript.
+- to apply tailwindcss.
+- Learn to integrate react with typescript.
