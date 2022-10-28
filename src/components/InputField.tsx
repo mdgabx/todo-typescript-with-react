@@ -1,4 +1,4 @@
-import React from 'react'
+import React,  { useRef } from 'react'
 
 interface Props  {
     todo: string,
@@ -7,9 +7,15 @@ interface Props  {
 }
 
 const InputField = ({ todo, setTodo, handleAdd  } : Props) => {
+  const inputRef = useRef<HTMLInputElement>(null);
+
   return (
-    <form className="input flex w-8/12 relative items-center" onSubmit={handleAdd}>
+    <form className="input flex w-8/12 relative items-center" onSubmit={(e) => { 
+      handleAdd(e)
+      inputRef.current?.blur()  
+      }}>
         <input 
+            ref={inputRef}
             className="input__box w-full rounded-full py-3 text-xl border-none ease-in duration-300 px-4 shadow-black shadow-2xl focus:outline-none focus:shadow-2xl" 
             type="input" 
             value={todo}
