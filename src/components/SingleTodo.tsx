@@ -1,5 +1,5 @@
 import { Todo } from '../../src/model';
-import React, { useState } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import { FiCheck, FiDelete, FiEdit3 } from 'react-icons/fi';
 
 interface Props {
@@ -39,18 +39,23 @@ const SingleTodo = ({todo, todoList, setTodoList}: Props) => {
         }));
 
         setEdit(false);
+    };
 
-        // setTodoList(todoList.map((todo) => {
-        //    return todo.id === id ? {...todo, todo: editTodo} : todo;
-        // })
-    }
+    const inputRef = useRef<HTMLInputElement>(null);
 
+
+    useEffect(() => {
+        inputRef.current?.focus();
+    }, [edit]);
+
+  
     return (
-        <form className="todos__single flex w-11/12 p-4 bg-amber-400 rounded-[5px] mt-4" onSubmit={(e) => handleEdit(e, todo.id)}> 
+        <form className="todos__single hover:scale-105 ease-out flex w-11/12 p-4 bg-amber-400 rounded-[5px] mt-4" onSubmit={(e) => handleEdit(e, todo.id)}> 
             {
                 edit ? (
                         <input value={editTodo} onChange={(e) => setEditTodo(e.target.value)} 
                             className="todos__single--text flex grow p-2 text-xl outline-none"
+                            ref={inputRef}
                         />
 
                 ) : ( todo.isDone === true ? (
