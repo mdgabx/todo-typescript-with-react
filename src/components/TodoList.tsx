@@ -13,7 +13,7 @@ interface Props {
 const TodoList = ({ todoList, setTodoList, completedTodo, setCompletedTodo } : Props) => {
    
     return ( 
-        <div className="container flex flex-col md:flex-row justify-center items-center">
+        <div className="container flex flex-col md:flex-row justify-center items-start">
            <Droppable droppableId="TodosList">
                 {   
                     (provided) => (
