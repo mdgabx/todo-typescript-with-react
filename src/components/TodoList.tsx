@@ -17,7 +17,7 @@ const TodoList = ({ todoList, setTodoList, completedTodo, setCompletedTodo } : P
            <Droppable droppableId="TodosList">
                 {   
                     (provided) => (
-                        <div ref={provided.innerRef} {...provided.droppableProps} className="todos flex bg-teal-800 mx-2 p-4 rounded-xl justify-evenly w-8/12 md:w-4/12 flex-wrap mt-4">
+                        <div ref={provided.innerRef} {...provided.droppableProps} className="todos flex bg-teal-800 md:mx-2 p-4 rounded-xl justify-evenly w-11/12 mx-auto md:w-4/12 flex-wrap mt-4">
                             <span className="todolist__header--text text-white">Active Tasks</span>
                             {todoList.map((todo, index) => {
                             return(
@@ -34,7 +34,7 @@ const TodoList = ({ todoList, setTodoList, completedTodo, setCompletedTodo } : P
            <Droppable droppableId="TodosCompleted">
                 {
                     (provided) => (
-                        <div ref={provided.innerRef} {...provided.droppableProps } className="todos remove flex bg-rose-800 mx-2 p-4 rounded-xl justify-evenly w-8/12 md:w-4/12 mt-4 flex-wrap ">
+                        <div ref={provided.innerRef} {...provided.droppableProps } className="todos remove flex bg-rose-800 md:mx-2 p-4 rounded-xl justify-evenly w-11/12 mx-auto md:w-4/12 mt-4 flex-wrap ">
                             <span className="todolist__header--text text-white">Completed Tasks</span>
                             {completedTodo.map((todo, index) => {
                             return(
