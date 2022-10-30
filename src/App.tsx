@@ -3,10 +3,12 @@ import './App.css';
 import InputField from './components/InputField';
 import { Todo } from './model';
 import TodoList from './components/TodoList';
+import { DragDropContext } from 'react-beautiful-dnd';
 
 const App = () => {
   const [todo, setTodo] = useState<string>("");
   const [todoList, setTodoList] = useState<Todo[]>([]);
+  const [completedTodo, setCompletedTodo] = useState<Todo[]>([]);
 
 
   const handleAdd = (e: React.FormEvent) => {
@@ -20,13 +22,16 @@ const App = () => {
 
   
   return (
-    <div className="App bg-emerald-600 w-screen h-screen flex flex-col items-center">
+    <DragDropContext onDragEnd={() => {}}>
+      <div className="App bg-emerald-600 w-screen h-screen flex flex-col items-center">
       <h1 className="uppercase text-[35px] md:text-[40px] text-white my-8 md:my-10 z-[1] text-center">
         TODO Board
       </h1>
       <InputField todo={todo} setTodo={setTodo} handleAdd={handleAdd}  />
-      <TodoList todoList={todoList} setTodoList={setTodoList} />
+      <TodoList todoList={todoList} setTodoList={setTodoList} completedTodo={completedTodo} setCompletedTodo={setCompletedTodo}  />
     </div>
+    </DragDropContext>
+    
   );
 }
 

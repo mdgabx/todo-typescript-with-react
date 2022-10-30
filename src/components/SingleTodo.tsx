@@ -1,15 +1,17 @@
 import { Todo } from '../../src/model';
 import React, { useState, useRef, useEffect } from 'react';
 import { FiCheck, FiDelete, FiEdit3 } from 'react-icons/fi';
+import { Draggable } from 'react-beautiful-dnd';
 
 interface Props {
     todo: Todo,
     todoList: Todo[],
-    setTodoList: React.Dispatch<React.SetStateAction<Todo[]>>
+    setTodoList: React.Dispatch<React.SetStateAction<Todo[]>>,
+    index: number
 };
 
 
-const SingleTodo = ({todo, todoList, setTodoList}: Props) => {
+const SingleTodo = ({todo, todoList, setTodoList, index}: Props) => {
     const [edit, setEdit] = useState<boolean>(false);
     const [editTodo, setEditTodo ] = useState<string>(todo.todo);
 
@@ -50,45 +52,58 @@ const SingleTodo = ({todo, todoList, setTodoList}: Props) => {
 
   
     return (
-        <form className="todos__single hover:scale-105 ease-out flex w-11/12 p-4 bg-amber-400 rounded-[5px] mt-4" onSubmit={(e) => handleEdit(e, todo.id)}> 
+        <Draggable draggableId={todo.id.toString()} index={index}>
             {
-                edit ? (
-                        <input value={editTodo} onChange={(e) => setEditTodo(e.target.value)} 
-                            className="todos__single--text flex grow p-2 text-xl outline-none"
-                            ref={inputRef}
-                        />
-
-                ) : ( todo.isDone === true ? (
-                        <s className="todos__single--text flex grow p-2 border-none text-xl">
-                            {todo.todo}
-                        </s>
-                        ) : (
-                        <span className="todos__single--text flex grow p-2 border-none text-xl">
-                            {todo.todo}
-                        </span>
+                (provided) => (
+                    <form {...provided.draggableProps}
+                         {...provided.dragHandleProps}
+                         ref={provided.innerRef}
+                    className="todos__single hover:scale-105 ease-out hover:shadow-black flex w-11/12 p-4 bg-amber-400 rounded-[5px] mt-4" onSubmit={(e) => handleEdit(e, todo.id)}> 
+                    {
+                        edit ? (
+                                <input value={editTodo} onChange={(e) => setEditTodo(e.target.value)} 
+                                    className="todos__single--text flex grow p-2 text-xl outline-none"
+                                    ref={inputRef}
+                                />
+        
+                        ) : ( todo.isDone === true ? (
+                                <s className="todos__single--text flex grow p-2 border-none text-xl">
+                                    {todo.todo}
+                                </s>
+                                ) : (
+                                <span className="todos__single--text flex grow p-2 border-none text-xl">
+                                    {todo.todo}
+                                </span>
+                                )
                         )
+                    }
+        
+                    <div className="flex flex-row justify-center items-center">
+                        <span className="icon ml-2 text-xl cursor-pointer">
+                            <FiEdit3 onClick={() => {
+                                 if(!edit && !todo.isDone) {
+                                    setEdit(!edit);
+                                }
+                            }
+                            } />
+                        
+                        </span>
+                        <span className="icon ml-2 text-xl cursor-pointer">
+                            <FiDelete onClick={() => handleDelete(todo.id)} />
+                        </span>
+                        <span className="icon ml-2 text-xl cursor-pointer">
+                            <FiCheck onClick={() => handleDone(todo.id)} />
+                        </span>
+                      
+                    </div>
+                </form>
                 )
             }
 
-            <div className="flex flex-row justify-center items-center">
-                <span className="icon ml-2 text-xl cursor-pointer">
-                    <FiEdit3 onClick={() => {
-                         if(!edit && !todo.isDone) {
-                            setEdit(!edit);
-                        }
-                    }
-                    } />
-                
-                </span>
-                <span className="icon ml-2 text-xl cursor-pointer">
-                    <FiDelete onClick={() => handleDelete(todo.id)} />
-                </span>
-                <span className="icon ml-2 text-xl cursor-pointer">
-                    <FiCheck onClick={() => handleDone(todo.id)} />
-                </span>
-              
-            </div>
-        </form>
+
+          
+
+        </Draggable>
       );
 }
  
