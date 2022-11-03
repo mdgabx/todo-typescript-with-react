@@ -35,7 +35,7 @@ const App = () => {
       add=active[source.index];
       active.splice(source.index, 1);
     } else  {
-      add=active[source.index];
+      add=complete[source.index];
       complete.splice(source.index, 1);
     }
 
